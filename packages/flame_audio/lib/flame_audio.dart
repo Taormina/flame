@@ -4,6 +4,8 @@ import 'package:flame_audio/bgm.dart';
 
 export 'package:audioplayers/audioplayers.dart';
 
+import 'package:mime/mime.dart';
+
 /// A typedef for a function that creates an [AudioCache] instance.
 typedef AudioCacheFactory = AudioCache Function({required String prefix});
 
@@ -53,8 +55,9 @@ class FlameAudio {
   ) async {
     final player = AudioPlayer()..audioCache = audioCache;
     await player.setReleaseMode(releaseMode);
+    final mimeType = lookupMimeType(file);
     await player.play(
-      AssetSource(file),
+      AssetSource(file, mimeType: mimeType),
       volume: volume,
       mode: playerMode,
     );
